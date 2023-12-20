@@ -27,7 +27,7 @@ const CommentsTableTestHelper = {
     return result.rows;
   },
 
-  async checkdeletedAtCommentsById(id) {
+  async checkDeletedAtCommentsById(id) {
     const query = {
       text: 'SELECT is_delete FROM comments WHERE id = $1',
       values: [id],
