@@ -4,7 +4,7 @@ class AddedThread {
 
     this.id = payload.id;
     this.title = payload.title;
-    this.user_id = payload.user_id;
+    this.owner = payload.user_id;
   }
 
   _validatePayload({ id, title, user_id }) {

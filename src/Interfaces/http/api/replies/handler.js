@@ -14,20 +14,7 @@ class ReplyHandler {
     const { threadId: thread_id, commentId: comment_id } = request.params;
     const { content } = request.payload;
 
-    const useCasePayload = {
-      content,
-      thread_id,
-      comment_id,
-      user_id,
-    };
-
-    const result = await replyUseCase.addReply(useCasePayload);
-
-    const addedReply = {
-      id: result.id,
-      content: result.content,
-      owner: result.user_id,
-    };
+    const addedReply = await replyUseCase.addReply({ user_id, thread_id, comment_id, content });
 
     return h
       .response({
@@ -44,14 +31,7 @@ class ReplyHandler {
     const { id: user_id } = request.auth.credentials;
     const { threadId: thread_id, commentId: comment_id, id: reply_id } = request.params;
 
-    const useCasePayload = {
-      thread_id,
-      comment_id,
-      reply_id,
-      user_id,
-    };
-
-    await replyUseCase.deleteReply(useCasePayload);
+    await replyUseCase.deleteReply({ user_id, thread_id, comment_id, reply_id });
 
     return h.response({
       status: 'success',

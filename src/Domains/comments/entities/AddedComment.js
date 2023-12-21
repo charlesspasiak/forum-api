@@ -5,7 +5,7 @@ class AddedComment {
 
     this.id = id;
     this.content = content;
-    this.user_id = user_id;
+    this.owner = user_id;
   }
 
   _verifyPayload({ id, content, user_id }) {

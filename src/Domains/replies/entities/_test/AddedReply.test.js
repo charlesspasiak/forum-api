@@ -31,6 +31,6 @@ describe('a AddedReply entities', () => {
 
     expect(addedReply.id).toEqual(payload.id);
     expect(addedReply.content).toEqual(payload.content);
-    expect(addedReply.user_id).toEqual(payload.user_id);
+    expect(addedReply.owner).toEqual(payload.user_id);
   });
 });

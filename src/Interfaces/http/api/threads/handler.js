@@ -4,29 +4,16 @@ class ThreadHandler {
   constructor(container) {
     this._container = container;
 
-    // Bind methods in the constructor
     this.postThreadHandler = this.postThreadHandler.bind(this);
     this.getThreadHandler = this.getThreadHandler.bind(this);
   }
 
   async postThreadHandler(request, h) {
     const threadUseCase = this._container.getInstance(ThreadUseCase.name);
-
-    const { id } = request.auth.credentials;
+    const { id: user_id } = request.auth.credentials;
     const { title, body } = request.payload;
 
-    const useCasePayload = {
-      title,
-      body,
-      user_id: id,
-    };
-
-    const result = await threadUseCase.addThread(useCasePayload);
-    const addedThread = {
-      id: result.id,
-      title: result.title,
-      owner: result.user_id,
-    };
+    const addedThread = await threadUseCase.addThread({ user_id, title, body });
 
     return h
       .response({

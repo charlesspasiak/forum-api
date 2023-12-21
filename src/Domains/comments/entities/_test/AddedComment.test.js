@@ -31,6 +31,6 @@ describe('a AddedComment entities', () => {
 
     expect(addedComment.id).toEqual(payload.id);
     expect(addedComment.content).toEqual(payload.content);
-    expect(addedComment.user_id).toEqual(payload.user_id);
+    expect(addedComment.owner).toEqual(payload.user_id);
   });
 });

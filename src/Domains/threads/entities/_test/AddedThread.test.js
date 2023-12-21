@@ -36,12 +36,12 @@ describe('AddedThread Entities', () => {
       };
 
       // Action
-      const { id, title, user_id } = new AddedThread(payload);
+      const { id, title, owner } = new AddedThread(payload);
 
       // Assert
       expect(id).toEqual(payload.id);
       expect(title).toEqual(payload.title);
-      expect(user_id).toEqual(payload.user_id);
+      expect(owner).toEqual(payload.user_id);
     });
   });
 });
