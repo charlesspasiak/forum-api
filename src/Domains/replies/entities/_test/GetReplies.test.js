@@ -39,11 +39,11 @@ describe('a GetReplies entities', () => {
       replies: [
         {
           id: 'reply-123',
-          username: 'samtampan',
+          username: true,
           date: new Date('2023-12-16').toISOString(),
           content: 'sebuah balasan komentar',
           deleted_at: '',
-          is_delete: 'sam',
+          is_delete: 234,
         },
       ],
     };

@@ -11,13 +11,13 @@ class ReplyHandler {
   async postReplyHandler(request, h) {
     const replyUseCase = this._container.getInstance(ReplyUseCase.name);
     const { id: user_id } = request.auth.credentials;
-    const { threadId, commentId } = request.params;
+    const { threadId: thread_id, commentId: comment_id } = request.params;
     const { content } = request.payload;
 
     const useCasePayload = {
       content,
-      thread_id: threadId,
-      comment_id: commentId,
+      thread_id,
+      comment_id,
       user_id,
     };
 
@@ -42,11 +42,11 @@ class ReplyHandler {
   async deleteReplyHandler(request, h) {
     const replyUseCase = this._container.getInstance(ReplyUseCase.name);
     const { id: user_id } = request.auth.credentials;
-    const { threadId, commentId, id: reply_id } = request.params;
+    const { threadId: thread_id, commentId: comment_id, id: reply_id } = request.params;
 
     const useCasePayload = {
-      thread_id: threadId,
-      comment_id: commentId,
+      thread_id,
+      comment_id,
       reply_id,
       user_id,
     };

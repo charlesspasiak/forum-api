@@ -9,28 +9,19 @@ class ReplyUseCase {
 
   async addReply(useCasePayload) {
     const { thread_id, comment_id } = useCasePayload;
-
-    await Promise.all([
-      this._threadRepository.checkAvailabilityThread(thread_id),
-      this._commentRepository.checkAvailabilityComment(comment_id),
-    ]);
-
+    await this._threadRepository.checkAvailabilityThread(thread_id);
+    await this._commentRepository.checkAvailabilityComment(comment_id);
     const newReply = new AddReply(useCasePayload);
     return this._replyRepository.addReply(newReply);
   }
 
   async deleteReply(useCasePayload) {
     this._validatePayload(useCasePayload);
-
     const { thread_id, comment_id, reply_id, user_id } = useCasePayload;
-
-    await Promise.all([
-      this._threadRepository.checkAvailabilityThread(thread_id),
-      this._commentRepository.checkAvailabilityComment(comment_id),
-      this._replyRepository.checkAvailabilityReply(reply_id),
-      this._replyRepository.verifyReplyOwner(reply_id, user_id),
-    ]);
-
+    await this._threadRepository.checkAvailabilityThread(thread_id);
+    await this._commentRepository.checkAvailabilityComment(comment_id);
+    await this._replyRepository.checkAvailabilityReply(reply_id);
+    await this._replyRepository.verifyReplyOwner(reply_id, user_id);
     await this._replyRepository.deleteReply(reply_id);
   }
 

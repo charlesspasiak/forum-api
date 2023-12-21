@@ -20,7 +20,7 @@ describe('replies endpoint', () => {
 
   async function getAccessToken(server) {
     const loginPayload = {
-      username: 'lestrapa',
+      username: 'zorro',
       password: 'secret',
     };
 
@@ -28,9 +28,9 @@ describe('replies endpoint', () => {
       method: 'POST',
       url: '/users',
       payload: {
-        username: 'lestrapa',
+        username: 'zorro',
         password: 'secret',
-        fullname: 'Charles Pasiak',
+        fullname: 'Roronoa Zorro',
       },
     });
 
@@ -419,34 +419,34 @@ describe('replies endpoint', () => {
 
       const replyResponse = JSON.parse(reply.payload);
 
-      const loginPayload_2 = {
-        username: 'samsam',
-        password: 'secret3',
+      const loginPayload2 = {
+        username: 'sanji',
+        password: 'qwerty',
       };
 
       await server.inject({
         method: 'POST',
         url: '/users',
         payload: {
-          username: loginPayload_2.username,
-          password: loginPayload_2.password,
+          username: loginPayload2.username,
+          password: loginPayload2.password,
           fullname: 'sanji doang',
         },
       });
 
-      const authentication_2 = await server.inject({
+      const authentication2 = await server.inject({
         method: 'POST',
         url: '/authentications',
-        payload: loginPayload_2,
+        payload: loginPayload2,
       });
 
-      const responseAuth_2 = JSON.parse(authentication_2.payload);
+      const responseAuth2 = JSON.parse(authentication2.payload);
 
       const response = await server.inject({
         method: 'DELETE',
         url: `/threads/${threadResponse.data.addedThread.id}/comments/${commentResponse.data.addedComment.id}/replies/${replyResponse.data.addedReply.id}`,
         headers: {
-          Authorization: `Bearer ${responseAuth_2.data.accessToken}`,
+          Authorization: `Bearer ${responseAuth2.data.accessToken}`,
         },
       });
 
