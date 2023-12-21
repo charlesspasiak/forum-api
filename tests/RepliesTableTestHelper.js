@@ -28,17 +28,6 @@ const RepliesTableTestHelper = {
     return result.rows;
   },
 
-  async checkDeletedAtRepliesById(id) {
-    const query = {
-      text: 'SELECT is_delete FROM replies WHERE id = $1',
-      values: [id],
-    };
-
-    const result = await pool.query(query);
-    const is_delete = result.rows[0].is_delete;
-    return is_delete;
-  },
-
   async deleteRepliesById(id) {
     const deletedAt = new Date().toISOString();
     const query = {

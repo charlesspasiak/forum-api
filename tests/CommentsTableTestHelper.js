@@ -27,17 +27,6 @@ const CommentsTableTestHelper = {
     return result.rows;
   },
 
-  async checkDeletedAtCommentsById(id) {
-    const query = {
-      text: 'SELECT is_delete FROM comments WHERE id = $1',
-      values: [id],
-    };
-
-    const result = await pool.query(query);
-    const isDelete = result.rows[0].is_delete;
-    return isDelete;
-  },
-
   async deleteCommentsById(id) {
     const deletedAt = new Date().toISOString();
     const query = {

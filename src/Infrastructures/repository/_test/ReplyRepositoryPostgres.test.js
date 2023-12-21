@@ -148,9 +148,11 @@ describe('ReplyRepositoryPostgres', () => {
 
       await replyRepositoryPostgres.deleteReply('reply-123');
 
-      const is_reply_deleted = await RepliesTableTestHelper.checkDeletedAtRepliesById('reply-123');
+      const replies = await RepliesTableTestHelper.findRepliesById('reply-123');
 
-      expect(is_reply_deleted).toEqual(true);
+      expect(replies).toHaveLength(1);
+      expect(replies[0].is_delete).toBeTruthy();
+      expect(replies[0].deleted_at).toBeDefined();
     });
   });
 
@@ -172,7 +174,7 @@ describe('ReplyRepositoryPostgres', () => {
       expect(replies[0].date).toBeDefined();
       expect(replies[0].content).toEqual('sebuah balasan komentar');
       expect(replies[0].deleted_at).toBeDefined();
-      expect(replies[0].is_delete).toEqual(false);
+      expect(replies[0].is_delete).toBeFalsy();
     });
   });
 });

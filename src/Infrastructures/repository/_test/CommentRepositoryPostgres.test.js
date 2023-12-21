@@ -121,15 +121,22 @@ describe('CommentRepositoryPostgres', () => {
 
   describe('deleteComment function', () => {
     it('should delete comment from the database', async () => {
+      // Arrange
       await UsersTableTestHelper.addUser(addUserPayload);
       await ThreadsTableTestHelper.addThread(addThreadPayload);
       await CommentsTableTestHelper.addComment(addCommentPayload);
+      const commentId = 'comment-xx123';
 
-      await commentRepositoryPostgres.deleteComment('comment-xx123');
+      // Action
+      await commentRepositoryPostgres.deleteComment(commentId);
 
-      const comment = await CommentsTableTestHelper.checkDeletedAtCommentsById('comment-xx123');
-
-      expect(typeof comment).toEqual('boolean');
+      // Assert
+      const comments = await CommentsTableTestHelper.findCommentsById(commentId);
+      
+      expect(comments).toHaveLength(1);
+      expect(comments[0].is_delete).toBeTruthy();
+      expect(comments[0].deleted_at).toBeDefined();
+      
     });
   });
 
@@ -146,7 +153,7 @@ describe('CommentRepositoryPostgres', () => {
       expect(comments[0].thread_id).toEqual('thread-123');
       expect(comments[0].username).toEqual('lestrapa');
       expect(comments[0].content).toEqual('isi comment');
-      expect(comments[0].is_delete).toBeDefined();
+      expect(comments[0].is_delete).toBeFalsy();
       expect(comments[0].date).toBeDefined();
     });
   });
