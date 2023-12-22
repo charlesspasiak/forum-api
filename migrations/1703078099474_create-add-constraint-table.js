@@ -23,7 +23,7 @@ exports.down = (pgm) => {
   dropForeignKey(pgm, 'threads', 'fk_threads.user_id_users.id');
   dropForeignKey(pgm, 'comments', 'fk_comments.user_id_users.id');
   dropForeignKey(pgm, 'comments', 'fk_comments.thread_id_threads.id');
-  dropForeignKey(pgm, 'replies', 'fk_replies.thread_id_comments.id');
+  dropForeignKey(pgm, 'replies', 'fk_replies.thread_id_threads.id');
   dropForeignKey(pgm, 'replies', 'fk_replies.comment_id_comments.id');
   dropForeignKey(pgm, 'replies', 'fk_replies.user_id_users.id');
 };
