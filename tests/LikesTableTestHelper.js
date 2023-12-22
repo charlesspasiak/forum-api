@@ -37,7 +37,7 @@ const LikesTableTestHelper = {
   },
 
   async cleanTable() {
-    await pool.query('DELETE FROM likes WHERE 1=1');
+    await pool.query('DELETE FROM likes');
   },
 };
 
