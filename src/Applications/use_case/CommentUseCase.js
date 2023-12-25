@@ -7,31 +7,31 @@ class CommentUseCase {
   }
 
   async addComment(useCasePayload) {
-    const { thread_id } = useCasePayload;
-    await this._threadRepository.checkAvailabilityThread(thread_id);
+    const { threadId } = useCasePayload;
+    await this._threadRepository.checkAvailabilityThread(threadId);
     const newComment = new AddComment(useCasePayload);
     return this._commentRepository.addComment(newComment);
   }
 
   async deleteComment(useCasePayload) {
     this._validatePayload(useCasePayload);
-    const { thread_id, comment_id, user_id } = useCasePayload;
-    await this._threadRepository.checkAvailabilityThread(thread_id);
-    await this._commentRepository.checkAvailabilityComment(comment_id);
-    await this._commentRepository.verifyCommentOwner(comment_id, user_id);
-    await this._commentRepository.deleteComment(comment_id);
+    const { threadId, commentId, userId } = useCasePayload;
+    await this._threadRepository.checkAvailabilityThread(threadId);
+    await this._commentRepository.checkAvailabilityComment(commentId);
+    await this._commentRepository.verifyCommentOwner(commentId, userId);
+    await this._commentRepository.deleteComment(commentId);
   }
 
   _validatePayload(payload) {
-    const { thread_id, comment_id, user_id } = payload;
+    const { threadId, commentId, userId } = payload;
 
-    if (!thread_id || !comment_id || !user_id) {
+    if (!threadId || !commentId || !userId) {
       throw new Error('DELETE_COMMENT_USE_CASE.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
     const isValidString = (value) => typeof value === 'string';
 
-    if (!isValidString(thread_id) || !isValidString(comment_id) || !isValidString(user_id)) {
+    if (!isValidString(threadId) || !isValidString(commentId) || !isValidString(userId)) {
       throw new Error('DELETE_COMMENT_USE_CASE.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
   }
