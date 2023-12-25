@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable valid-typeof */
 class GetReplies {
   constructor(payload) {
     this._verifyPayload(payload);

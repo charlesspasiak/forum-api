@@ -4,7 +4,7 @@ describe('a AddedComment entities', () => {
   it('should throw error when payload did not contain needed property', () => {
     const payload = {
       id: 'comment-xx123',
-      user_id: 'user-123',
+      userId: 'user-123',
     };
 
     expect(() => new AddedComment(payload)).toThrow('ADDED_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
@@ -14,7 +14,7 @@ describe('a AddedComment entities', () => {
     const payload = {
       id: 'comment-xx123',
       content: 123000,
-      user_id: 'user-123',
+      userId: 'user-123',
     };
 
     expect(() => new AddedComment(payload)).toThrow('ADDED_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
@@ -24,13 +24,13 @@ describe('a AddedComment entities', () => {
     const payload = {
       id: 'comment-xx123',
       content: 'isi comment',
-      user_id: 'user-123',
+      userId: 'user-123',
     };
 
     const addedComment = new AddedComment(payload);
 
     expect(addedComment.id).toEqual(payload.id);
     expect(addedComment.content).toEqual(payload.content);
-    expect(addedComment.owner).toEqual(payload.user_id);
+    expect(addedComment.owner).toEqual(payload.userId);
   });
 });

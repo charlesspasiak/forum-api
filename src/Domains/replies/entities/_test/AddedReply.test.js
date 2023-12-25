@@ -4,7 +4,7 @@ describe('a AddedReply entities', () => {
   it('should throw error when payload did not contain needed property', () => {
     const payload = {
       id: 'reply-123',
-      user_id: 'user-123',
+      userId: 'user-123',
     };
 
     expect(() => new AddedReply(payload)).toThrow('ADDED_REPLY.NOT_CONTAIN_NEEDED_PROPERTY');
@@ -14,7 +14,7 @@ describe('a AddedReply entities', () => {
     const payload = {
       id: 'reply-123',
       content: {},
-      user_id: 'user-123',
+      userId: 'user-123',
     };
 
     expect(() => new AddedReply(payload)).toThrow('ADDED_REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION');
@@ -24,13 +24,13 @@ describe('a AddedReply entities', () => {
     const payload = {
       id: 'reply-123',
       content: 'mantap jiwa~',
-      user_id: 'user-123',
+      userId: 'user-123',
     };
 
     const addedReply = new AddedReply(payload);
 
     expect(addedReply.id).toEqual(payload.id);
     expect(addedReply.content).toEqual(payload.content);
-    expect(addedReply.owner).toEqual(payload.user_id);
+    expect(addedReply.owner).toEqual(payload.userId);
   });
 });

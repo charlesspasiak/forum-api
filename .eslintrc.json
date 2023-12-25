@@ -11,5 +11,11 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "no-underscore-dangle": "off",
+        "class-methods-use-this": "off",
+        "comma-dangle": "off",
+        "object-curly-newline": "off",
+        "operator-linebreak": "off",
+        "no-restricted-syntax": "off"
     }
 }

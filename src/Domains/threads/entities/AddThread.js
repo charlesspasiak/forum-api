@@ -4,23 +4,23 @@ class AddThread {
 
     this.title = payload.title;
     this.body = payload.body;
-    this.user_id = payload.user_id;
+    this.userId = payload.userId;
   }
 
-  _validatePayload({ title, body, user_id }) {
-    this._validateRequiredProperties(title, body, user_id);
-    this._validateDataTypes(title, body, user_id);
+  _validatePayload({ title, body, userId }) {
+    this._validateRequiredProperties(title, body, userId);
+    this._validateDataTypes(title, body, userId);
     this._validateTitleLength(title);
   }
 
-  _validateRequiredProperties(title, body, user_id) {
-    if (!title || !body || !user_id) {
+  _validateRequiredProperties(title, body, userId) {
+    if (!title || !body || !userId) {
       throw new Error('ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
     }
   }
 
-  _validateDataTypes(title, body, user_id) {
-    if (typeof title !== 'string' || typeof body !== 'string' || typeof user_id !== 'string') {
+  _validateDataTypes(title, body, userId) {
+    if (typeof title !== 'string' || typeof body !== 'string' || typeof userId !== 'string') {
       throw new Error('ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
   }

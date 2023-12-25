@@ -1,3 +1,5 @@
+/* eslint-disable valid-typeof */
+/* eslint-disable no-restricted-syntax */
 class GetComment {
   constructor(payload) {
     this._verifyPayload(payload);
