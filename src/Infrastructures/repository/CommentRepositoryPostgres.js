@@ -11,18 +11,24 @@ class CommentRepositoryPostgres extends CommentRepository {
   }
 
   async addComment(newComment) {
-    const { content, thread_id, user_id } = newComment;
+    const { content, threadId, userId } = newComment;
     const id = `comment-${this._idGenerator()}`;
     const isDelete = false;
 
     const query = {
       text: 'INSERT INTO comments VALUES($1, $2, $3, $4, $5) RETURNING id, content, user_id',
-      values: [id, content, user_id, thread_id, isDelete],
+      values: [id, content, userId, threadId, isDelete],
     };
 
     const result = await this._pool.query(query);
 
-    return new AddedComment(result.rows[0]);
+    const mappedResult = {
+      id: result.rows[0].id,
+      content: result.rows[0].content,
+      userId: result.rows[0].user_id,
+    };
+
+    return new AddedComment(mappedResult);
   }
 
   async checkAvailabilityComment(commentId) {

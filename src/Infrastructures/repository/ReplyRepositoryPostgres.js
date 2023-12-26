@@ -11,18 +11,24 @@ class ReplyRepositoryPostgres extends ReplyRepository {
   }
 
   async addReply(replyData) {
-    const { thread_id, comment_id, content, user_id } = replyData;
+    const { threadId, commentId, content, userId } = replyData;
     const id = `reply-${this._idGenerator()}`;
     const isDeleted = false;
 
     const query = {
       text: 'INSERT INTO replies VALUES($1, $2, $3, $4, $5, $6) RETURNING id, content, user_id',
-      values: [id, content, thread_id, comment_id, user_id, isDeleted],
+      values: [id, content, threadId, commentId, userId, isDeleted],
     };
 
     const result = await this._pool.query(query);
 
-    return new AddedReply(result.rows[0]);
+    const mappedResult = {
+      id: result.rows[0].id,
+      content: result.rows[0].content,
+      userId: result.rows[0].user_id,
+    };
+
+    return new AddedReply(mappedResult);
   }
 
   async checkAvailabilityReply(replyId) {
