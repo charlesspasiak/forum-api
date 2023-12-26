@@ -14,14 +14,14 @@ describe('ThreadUseCase', () => {
       const useCasePayload = {
         title: 'sebuah thread',
         body: 'sebuah body thread',
-        user_id: 'user-123',
+        userId: 'user-123',
       };
 
       const mockAddedThread = new AddedThread({
         id: 'thread-123',
         title: useCasePayload.title,
         body: useCasePayload.body,
-        user_id: useCasePayload.user_id,
+        userId: useCasePayload.userId,
       });
 
       const mockThreadRepository = new ThreadRepository();
@@ -42,14 +42,14 @@ describe('ThreadUseCase', () => {
           id: 'thread-123',
           title: useCasePayload.title,
           body: useCasePayload.body,
-          user_id: useCasePayload.user_id,
+          userId: useCasePayload.userId,
         })
       );
-      expect(mockThreadRepository.addThread).toBeCalledWith(
+      expect(mockThreadRepository.addThread).toHaveBeenCalledWith(
         new AddThread({
           title: useCasePayload.title,
           body: useCasePayload.body,
-          user_id: useCasePayload.user_id,
+          userId: useCasePayload.userId,
         })
       );
     });

@@ -34,13 +34,13 @@ describe('CommentRepositoryPostgres', () => {
   const addThreadPayload = {
     id: 'thread-123',
     body: 'isi body thread',
-    user_id: 'user-123',
+    userId: 'user-123',
   };
 
   const addCommentPayload = {
     content: 'isi comment',
-    thread_id: 'thread-123',
-    user_id: 'user-123',
+    threadId: 'thread-123',
+    userId: 'user-123',
   };
 
   describe('CommentRepositoryPostgres instance', () => {
@@ -64,7 +64,7 @@ describe('CommentRepositoryPostgres', () => {
         new AddedComment({
           id: 'comment-xx123',
           content: 'isi comment',
-          user_id: 'user-123',
+          userId: 'user-123',
         })
       );
 
@@ -86,9 +86,9 @@ describe('CommentRepositoryPostgres', () => {
       await ThreadsTableTestHelper.addThread(addThreadPayload);
       await CommentsTableTestHelper.addComment(addCommentPayload);
 
-      await expect(commentRepositoryPostgres.checkAvailabilityComment('comment-xx123')).resolves.not.toThrow(
-        NotFoundError
-      );
+      await expect(
+        commentRepositoryPostgres.checkAvailabilityComment('comment-xx123')
+      ).resolves.not.toThrow(NotFoundError);
     });
   });
 
@@ -103,9 +103,9 @@ describe('CommentRepositoryPostgres', () => {
       await CommentsTableTestHelper.addComment(addCommentPayload);
       const userId = 'user-xx123';
 
-      await expect(commentRepositoryPostgres.verifyCommentOwner('comment-xx123', userId)).rejects.toThrow(
-        AuthorizationError
-      );
+      await expect(
+        commentRepositoryPostgres.verifyCommentOwner('comment-xx123', userId)
+      ).rejects.toThrow(AuthorizationError);
     });
 
     it('should not throw AuthorizationError if comment belongs to owner', async () => {
@@ -132,11 +132,10 @@ describe('CommentRepositoryPostgres', () => {
 
       // Assert
       const comments = await CommentsTableTestHelper.findCommentsById(commentId);
-      
+
       expect(comments).toHaveLength(1);
       expect(comments[0].is_delete).toBeTruthy();
       expect(comments[0].deleted_at).toBeDefined();
-      
     });
   });
 

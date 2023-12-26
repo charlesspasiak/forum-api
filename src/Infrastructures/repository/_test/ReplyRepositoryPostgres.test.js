@@ -34,20 +34,20 @@ describe('ReplyRepositoryPostgres', () => {
       id: 'thread-123',
       title: 'judul thread',
       body: 'is body thread',
-      user_id: userPayload.id,
+      userId: userPayload.id,
     };
     const commentPayload = {
       id: 'comment-xx123',
       content: 'sebuah komentar',
-      thread_id: threadPayload.id,
-      user_id: userPayload.id,
+      threadId: threadPayload.id,
+      userId: userPayload.id,
     };
     const replyPayload = {
       id: 'reply-123',
-      thread_id: threadPayload.id,
-      comment_id: commentPayload.id,
+      threadId: threadPayload.id,
+      commentId: commentPayload.id,
       content: 'sebuah balasan komentar',
-      user_id: userPayload.id,
+      userId: userPayload.id,
     };
 
     return { userPayload, threadPayload, commentPayload, replyPayload };
@@ -62,10 +62,10 @@ describe('ReplyRepositoryPostgres', () => {
       await CommentsTableTestHelper.addComment(commentPayload);
 
       const replyData = new AddReply({
-        thread_id: threadPayload.id,
-        comment_id: commentPayload.id,
+        threadId: threadPayload.id,
+        commentId: commentPayload.id,
         content: replyPayload.content,
-        user_id: userPayload.id,
+        userId: userPayload.id,
       });
 
       const addedReply = await replyRepositoryPostgres.addReply(replyData);
@@ -74,7 +74,7 @@ describe('ReplyRepositoryPostgres', () => {
         new AddedReply({
           id: replyPayload.id,
           content: replyPayload.content,
-          user_id: userPayload.id,
+          userId: userPayload.id,
         })
       );
 
@@ -89,7 +89,9 @@ describe('ReplyRepositoryPostgres', () => {
   describe('checkAvailabilityReply function', () => {
     it('should throw NotFoundError if reply not available', async () => {
       const reply = 'reply-123';
-      await expect(replyRepositoryPostgres.checkAvailabilityReply(reply)).rejects.toThrow(NotFoundError);
+      await expect(replyRepositoryPostgres.checkAvailabilityReply(reply)).rejects.toThrow(
+        NotFoundError
+      );
     });
 
     it('should not throw NotFoundError if reply available', async () => {
@@ -100,9 +102,9 @@ describe('ReplyRepositoryPostgres', () => {
       await CommentsTableTestHelper.addComment(commentPayload);
       await RepliesTableTestHelper.addReply(replyPayload);
 
-      await expect(replyRepositoryPostgres.checkAvailabilityReply('reply-123')).resolves.not.toThrow(
-        NotFoundError
-      );
+      await expect(
+        replyRepositoryPostgres.checkAvailabilityReply('reply-123')
+      ).resolves.not.toThrow(NotFoundError);
     });
   });
 
@@ -115,10 +117,10 @@ describe('ReplyRepositoryPostgres', () => {
       await CommentsTableTestHelper.addComment(commentPayload);
       await RepliesTableTestHelper.addReply(replyPayload);
 
-      const user_id = 'user-lft';
-      await UsersTableTestHelper.addUser({ id: user_id, username: 'lutfy' });
+      const userId = 'user-lft';
+      await UsersTableTestHelper.addUser({ id: userId, username: 'lutfy' });
 
-      await expect(replyRepositoryPostgres.verifyReplyOwner('reply-123', user_id)).rejects.toThrow(
+      await expect(replyRepositoryPostgres.verifyReplyOwner('reply-123', userId)).rejects.toThrow(
         AuthorizationError
       );
     });
@@ -131,9 +133,9 @@ describe('ReplyRepositoryPostgres', () => {
       await CommentsTableTestHelper.addComment(commentPayload);
       await RepliesTableTestHelper.addReply(replyPayload);
 
-      await expect(replyRepositoryPostgres.verifyReplyOwner('reply-123', 'user-zr02')).resolves.not.toThrow(
-        AuthorizationError
-      );
+      await expect(
+        replyRepositoryPostgres.verifyReplyOwner('reply-123', 'user-zr02')
+      ).resolves.not.toThrow(AuthorizationError);
     });
   });
 

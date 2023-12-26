@@ -46,7 +46,7 @@ describe('likes endpoint', () => {
 
     return {
       accessToken: responseAuth.data.accessToken,
-      user_id: user.result.data.addedUser.id,
+      userId: user.result.data.addedUser.id,
     };
   }
 
@@ -54,7 +54,7 @@ describe('likes endpoint', () => {
     it('should response 200 and like', async () => {
       const server = await createServer(container);
 
-      const { accessToken, user_id } = await getAccessToken(server);
+      const { accessToken, userId } = await getAccessToken(server);
 
       const thread = await server.inject({
         method: 'POST',
@@ -97,7 +97,7 @@ describe('likes endpoint', () => {
       const likes = await LikesTableTestHelper.findLike(
         threadResponse.data.addedThread.id,
         commentResponse.data.addedComment.id,
-        user_id
+        userId
       );
       expect(likes).toHaveLength(1);
     });
@@ -105,7 +105,7 @@ describe('likes endpoint', () => {
     it('should response 200 and unlike', async () => {
       const server = await createServer(container);
 
-      const { accessToken, user_id } = await getAccessToken(server);
+      const { accessToken, userId } = await getAccessToken(server);
 
       const thread = await server.inject({
         method: 'POST',
@@ -162,7 +162,7 @@ describe('likes endpoint', () => {
       const unlikes = await LikesTableTestHelper.findLike(
         threadResponse.data.addedThread.id,
         commentResponse.data.addedComment.id,
-        user_id
+        userId
       );
       expect(unlikes).toHaveLength(0);
     });

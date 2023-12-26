@@ -6,7 +6,7 @@ describe('AddedThread Entities', () => {
       // Arrange
       const payload = {
         id: 'thread-123',
-        user_id: 'user-123',
+        userId: 'user-123',
       };
 
       // Action & Assert
@@ -18,7 +18,7 @@ describe('AddedThread Entities', () => {
       const payload = {
         id: 'thread-123',
         title: 11235,
-        user_id: 'user-123',
+        userId: 'user-123',
       };
 
       // Action & Assert
@@ -32,7 +32,7 @@ describe('AddedThread Entities', () => {
       const payload = {
         id: 'thread-123',
         title: 'sebuah thread',
-        user_id: 'user-123',
+        userId: 'user-123',
       };
 
       // Action
@@ -41,7 +41,7 @@ describe('AddedThread Entities', () => {
       // Assert
       expect(id).toEqual(payload.id);
       expect(title).toEqual(payload.title);
-      expect(owner).toEqual(payload.user_id);
+      expect(owner).toEqual(payload.userId);
     });
   });
 });

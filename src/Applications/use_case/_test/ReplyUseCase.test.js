@@ -18,16 +18,16 @@ describe('ReplyUseCase class', () => {
 
     it('should orchestrating the add reply action correctly', async () => {
       const useCasePayload = {
-        thread_id: 'thread-123',
-        comment_id: 'comment-xx123',
+        threadId: 'thread-123',
+        commentId: 'comment-xx123',
         content: 'isi komentar',
-        user_id: 'user-123',
+        userId: 'user-123',
       };
 
       const mockAddedReply = new AddedReply({
         id: 'reply-123',
         content: useCasePayload.content,
-        user_id: useCasePayload.user_id,
+        userId: useCasePayload.userId,
       });
 
       const mockThreadRepository = new ThreadRepository();
@@ -47,21 +47,25 @@ describe('ReplyUseCase class', () => {
       });
       const addedReply = await replyUseCase.addReply(useCasePayload);
 
-      expect(mockThreadRepository.checkAvailabilityThread).toBeCalledWith(useCasePayload.thread_id);
-      expect(mockCommentRepository.checkAvailabilityComment).toBeCalledWith(useCasePayload.comment_id);
+      expect(mockThreadRepository.checkAvailabilityThread).toHaveBeenCalledWith(
+        useCasePayload.threadId
+      );
+      expect(mockCommentRepository.checkAvailabilityComment).toHaveBeenCalledWith(
+        useCasePayload.commentId
+      );
       expect(addedReply).toStrictEqual(
         new AddedReply({
           id: 'reply-123',
           content: useCasePayload.content,
-          user_id: useCasePayload.user_id,
+          userId: useCasePayload.userId,
         })
       );
-      expect(mockReplyRepository.addReply).toBeCalledWith(
+      expect(mockReplyRepository.addReply).toHaveBeenCalledWith(
         new AddReply({
-          thread_id: useCasePayload.thread_id,
-          comment_id: useCasePayload.comment_id,
+          threadId: useCasePayload.threadId,
+          commentId: useCasePayload.commentId,
           content: useCasePayload.content,
-          user_id: useCasePayload.user_id,
+          userId: useCasePayload.userId,
         })
       );
     });
@@ -73,7 +77,7 @@ describe('ReplyUseCase class', () => {
       expect(replyUseCase.deleteReply).toBeDefined();
     });
 
-    it('should throw error if use case payload not contain thread_id and comment_id', async () => {
+    it('should throw error if use case payload not contain threadId and commentId', async () => {
       const useCasePayload = {};
       const replyUseCase = new ReplyUseCase({});
 
@@ -84,10 +88,10 @@ describe('ReplyUseCase class', () => {
 
     it('should throw error if payload not string', async () => {
       const useCasePayload = {
-        thread_id: true,
-        comment_id: 123,
-        reply_id: [],
-        user_id: {},
+        threadId: true,
+        commentId: 123,
+        replyId: [],
+        userId: {},
       };
       const replyUseCase = new ReplyUseCase({});
       await expect(replyUseCase.deleteReply(useCasePayload)).rejects.toThrow(
@@ -97,10 +101,10 @@ describe('ReplyUseCase class', () => {
 
     it('should orchestrating the delete reply action correctly', async () => {
       const useCasePayload = {
-        thread_id: 'thread-123',
-        comment_id: 'comment-xx123',
-        reply_id: 'reply-123',
-        user_id: 'user-123',
+        threadId: 'thread-123',
+        commentId: 'comment-xx123',
+        replyId: 'reply-123',
+        userId: 'user-123',
       };
 
       const mockReplyRepository = new ReplyRepository();
@@ -123,14 +127,20 @@ describe('ReplyUseCase class', () => {
 
       await replyUseCase.deleteReply(useCasePayload);
 
-      expect(mockThreadRepository.checkAvailabilityThread).toHaveBeenCalledWith(useCasePayload.thread_id);
-      expect(mockCommentRepository.checkAvailabilityComment).toHaveBeenCalledWith(useCasePayload.comment_id);
-      expect(mockReplyRepository.checkAvailabilityReply).toHaveBeenCalledWith(useCasePayload.reply_id);
-      expect(mockReplyRepository.verifyReplyOwner).toHaveBeenCalledWith(
-        useCasePayload.reply_id,
-        useCasePayload.user_id
+      expect(mockThreadRepository.checkAvailabilityThread).toHaveBeenCalledWith(
+        useCasePayload.threadId
       );
-      expect(mockReplyRepository.deleteReply).toHaveBeenCalledWith(useCasePayload.reply_id);
+      expect(mockCommentRepository.checkAvailabilityComment).toHaveBeenCalledWith(
+        useCasePayload.commentId
+      );
+      expect(mockReplyRepository.checkAvailabilityReply).toHaveBeenCalledWith(
+        useCasePayload.replyId
+      );
+      expect(mockReplyRepository.verifyReplyOwner).toHaveBeenCalledWith(
+        useCasePayload.replyId,
+        useCasePayload.userId
+      );
+      expect(mockReplyRepository.deleteReply).toHaveBeenCalledWith(useCasePayload.replyId);
     });
   });
 });

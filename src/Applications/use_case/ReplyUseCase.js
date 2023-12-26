@@ -8,35 +8,35 @@ class ReplyUseCase {
   }
 
   async addReply(useCasePayload) {
-    const { thread_id, comment_id } = useCasePayload;
-    await this._threadRepository.checkAvailabilityThread(thread_id);
-    await this._commentRepository.checkAvailabilityComment(comment_id);
+    const { threadId, commentId } = useCasePayload;
+    await this._threadRepository.checkAvailabilityThread(threadId);
+    await this._commentRepository.checkAvailabilityComment(commentId);
     const newReply = new AddReply(useCasePayload);
     return this._replyRepository.addReply(newReply);
   }
 
   async deleteReply(useCasePayload) {
     this._validatePayload(useCasePayload);
-    const { thread_id, comment_id, reply_id, user_id } = useCasePayload;
-    await this._threadRepository.checkAvailabilityThread(thread_id);
-    await this._commentRepository.checkAvailabilityComment(comment_id);
-    await this._replyRepository.checkAvailabilityReply(reply_id);
-    await this._replyRepository.verifyReplyOwner(reply_id, user_id);
-    await this._replyRepository.deleteReply(reply_id);
+    const { threadId, commentId, replyId, userId } = useCasePayload;
+    await this._threadRepository.checkAvailabilityThread(threadId);
+    await this._commentRepository.checkAvailabilityComment(commentId);
+    await this._replyRepository.checkAvailabilityReply(replyId);
+    await this._replyRepository.verifyReplyOwner(replyId, userId);
+    await this._replyRepository.deleteReply(replyId);
   }
 
   _validatePayload(payload) {
-    const { thread_id, comment_id, reply_id, user_id } = payload;
+    const { threadId, commentId, replyId, userId } = payload;
 
-    if (!thread_id || !comment_id || !reply_id || !user_id) {
+    if (!threadId || !commentId || !replyId || !userId) {
       throw new Error('DELETE_REPLY_USE_CASE.NOT_CONTAIN_VALID_PAYLOAD');
     }
 
     if (
-      typeof thread_id !== 'string' ||
-      typeof comment_id !== 'string' ||
-      typeof reply_id !== 'string' ||
-      typeof user_id !== 'string'
+      typeof threadId !== 'string' ||
+      typeof commentId !== 'string' ||
+      typeof replyId !== 'string' ||
+      typeof userId !== 'string'
     ) {
       throw new Error('DELETE_REPLY_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION');
     }

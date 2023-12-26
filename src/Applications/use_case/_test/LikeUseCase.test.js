@@ -7,14 +7,14 @@ const LikeUseCase = require('../LikeUseCase');
 describe('LikeUseCase', () => {
   it('should orchestrating the add like action correctly', async () => {
     const useCasePayload = {
-      thread_id: 'thread-123',
-      comment_id: 'comment-xx123',
-      user_id: 'user-123',
+      threadId: 'thread-123',
+      commentId: 'comment-xx123',
+      userId: 'user-123',
     };
     const expectedRegisteredLike = new AddLike({
-      thread_id: 'thread-123',
-      comment_id: 'comment-xx123',
-      user_id: 'user-123',
+      threadId: 'thread-123',
+      commentId: 'comment-xx123',
+      userId: 'user-123',
     });
     const mockLikeRepository = new LikeRepository();
     const mockThreadRepository = new ThreadRepository();
@@ -32,17 +32,25 @@ describe('LikeUseCase', () => {
     });
     await getLikeUseCase.execute(useCasePayload);
 
-    expect(mockThreadRepository.checkAvailabilityThread).toBeCalledWith(useCasePayload.thread_id);
-    expect(mockCommentRepository.checkAvailabilityComment).toBeCalledWith(useCasePayload.comment_id);
-    expect(mockLikeRepository.verifyAvailableLike).toBeCalledWith('thread-123', 'comment-xx123', 'user-123');
-    expect(mockLikeRepository.addLike).toBeCalledWith(expectedRegisteredLike);
+    expect(mockThreadRepository.checkAvailabilityThread).toHaveBeenCalledWith(
+      useCasePayload.threadId
+    );
+    expect(mockCommentRepository.checkAvailabilityComment).toHaveBeenCalledWith(
+      useCasePayload.commentId
+    );
+    expect(mockLikeRepository.verifyAvailableLike).toHaveBeenCalledWith(
+      'thread-123',
+      'comment-xx123',
+      'user-123'
+    );
+    expect(mockLikeRepository.addLike).toHaveBeenCalledWith(expectedRegisteredLike);
   });
 
   it('should orchestrating the delete like action correctly', async () => {
     const useCasePayload = {
-      thread_id: 'thread-123',
-      comment_id: 'comment-xx123',
-      user_id: 'user-123',
+      threadId: 'thread-123',
+      commentId: 'comment-xx123',
+      userId: 'user-123',
     };
     const mockLikeRepository = new LikeRepository();
     const mockThreadRepository = new ThreadRepository();
@@ -60,9 +68,17 @@ describe('LikeUseCase', () => {
     });
     await getLikeUseCase.execute(useCasePayload);
 
-    expect(mockThreadRepository.checkAvailabilityThread).toBeCalledWith(useCasePayload.thread_id);
-    expect(mockCommentRepository.checkAvailabilityComment).toBeCalledWith(useCasePayload.comment_id);
-    expect(mockLikeRepository.verifyAvailableLike).toBeCalledWith('thread-123', 'comment-xx123', 'user-123');
-    expect(mockLikeRepository.deleteLike).toBeCalledWith('like-123');
+    expect(mockThreadRepository.checkAvailabilityThread).toHaveBeenCalledWith(
+      useCasePayload.threadId
+    );
+    expect(mockCommentRepository.checkAvailabilityComment).toHaveBeenCalledWith(
+      useCasePayload.commentId
+    );
+    expect(mockLikeRepository.verifyAvailableLike).toHaveBeenCalledWith(
+      'thread-123',
+      'comment-xx123',
+      'user-123'
+    );
+    expect(mockLikeRepository.deleteLike).toHaveBeenCalledWith('like-123');
   });
 });

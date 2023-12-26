@@ -8,16 +8,11 @@ class RepliesHandler {
   }
 
   async putLikeHandler(request, h) {
-    const { threadId: thread_id, commentId: comment_id } = request.params;
-    const { id: user_id } = request.auth.credentials;
+    const { threadId, commentId } = request.params;
+    const { id: userId } = request.auth.credentials;
 
-    const payload = {
-      thread_id,
-      comment_id,
-      user_id,
-    };
     const likeUseCase = this._container.getInstance(LikeUseCase.name);
-    await likeUseCase.execute(payload);
+    await likeUseCase.execute({ threadId, commentId, userId });
 
     return h.response({
       status: 'success',

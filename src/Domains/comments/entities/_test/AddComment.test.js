@@ -12,8 +12,8 @@ describe('a AddComment entities', () => {
 
   it('should throw error when payload did not meet data type specification', () => {
     const payload = {
-      user_id: 'user-123',
-      thread_id: 'thread-123',
+      userId: 'user-123',
+      threadId: 'thread-123',
       content: true,
     };
 
@@ -22,15 +22,15 @@ describe('a AddComment entities', () => {
 
   it('should create new comment object correctly', () => {
     const payload = {
-      user_id: 'user-123',
-      thread_id: 'thread-123',
+      userId: 'user-123',
+      threadId: 'thread-123',
       content: 'isi comment',
     };
 
-    const { user_id, thread_id, content } = new AddComment(payload);
+    const { userId, threadId, content } = new AddComment(payload);
 
-    expect(user_id).toEqual(payload.user_id);
-    expect(thread_id).toEqual(payload.thread_id);
+    expect(userId).toEqual(payload.userId);
+    expect(threadId).toEqual(payload.threadId);
     expect(content).toEqual(payload.content);
   });
 });

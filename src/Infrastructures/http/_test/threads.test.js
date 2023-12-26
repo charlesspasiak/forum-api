@@ -175,7 +175,9 @@ describe('threads endpoint', () => {
 
       expect(response.statusCode).toEqual(200);
       expect(responseJson.status).toEqual('success');
-      expect(responseJson.data.thread.id).toEqual(JSON.parse(threadResponse.payload).data.addedThread.id);
+      expect(responseJson.data.thread.id).toEqual(
+        JSON.parse(threadResponse.payload).data.addedThread.id
+      );
       expect(responseJson.data.thread.title).toEqual('judul sebuah thread');
       expect(responseJson.data.thread.body).toEqual('coba isi thread');
       expect(responseJson.data.thread.username).toEqual('lestrapa');

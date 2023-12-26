@@ -1,19 +1,19 @@
 class AddLike {
   constructor(payload) {
     this._verifyPayload(payload);
-    const { thread_id, comment_id, user_id } = payload;
+    const { threadId, commentId, userId } = payload;
 
-    this.thread_id = thread_id;
-    this.comment_id = comment_id;
-    this.user_id = user_id;
+    this.threadId = threadId;
+    this.commentId = commentId;
+    this.userId = userId;
   }
 
-  _verifyPayload({ thread_id, comment_id, user_id }) {
-    if (!thread_id || !comment_id || !user_id) {
+  _verifyPayload({ threadId, commentId, userId }) {
+    if (!threadId || !commentId || !userId) {
       throw new Error('REGISTER_LIKE.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
-    if (typeof thread_id !== 'string' || typeof comment_id !== 'string' || typeof user_id !== 'string') {
+    if (typeof threadId !== 'string' || typeof commentId !== 'string' || typeof userId !== 'string') {
       throw new Error('REGISTER_LIKE.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
   }

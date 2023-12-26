@@ -21,20 +21,20 @@ describe('LikeRepositoryPostgres', () => {
 
   const addThreadPayload = {
     id: 'thread-123',
-    user_id: 'user-123',
+    userId: 'user-123',
   };
 
   const addCommentPayload = {
     id: 'comment-xx123',
-    thread_id: 'thread-123',
-    user_id: 'user-123',
+    threadId: 'thread-123',
+    userId: 'user-123',
   };
 
   const addLikePayload = {
     id: 'like-123',
-    thread_id: 'thread-123',
-    comment_id: 'comment-xx123',
-    user_id: 'user-123',
+    threadId: 'thread-123',
+    commentId: 'comment-xx123',
+    userId: 'user-123',
   };
 
   describe('addLike function', () => {
@@ -43,16 +43,16 @@ describe('LikeRepositoryPostgres', () => {
       await ThreadsTableTestHelper.addThread(addThreadPayload);
       await CommentsTableTestHelper.addComment(addCommentPayload);
       const addLike = new AddLike({
-        thread_id: 'thread-123',
-        comment_id: 'comment-xx123',
-        user_id: 'user-123',
+        threadId: 'thread-123',
+        commentId: 'comment-xx123',
+        userId: 'user-123',
       });
-      const fakeIdGenerator = () => '123';
+      const fakeIdGenerator = () => 'xx123';
       const likeRepositoryPostgres = new LikeRepositoryPostgres(pool, fakeIdGenerator);
 
       const addedLike = await likeRepositoryPostgres.addLike(addLike);
-      expect(addedLike).toStrictEqual('like-123');
-      const likes = await LikesTableTestHelper.findLikeById('like-123');
+      expect(addedLike).toStrictEqual('like-xx123');
+      const likes = await LikesTableTestHelper.findLikeById('like-xx123');
       expect(likes).toHaveLength(1);
     });
   });
@@ -83,7 +83,9 @@ describe('LikeRepositoryPostgres', () => {
     it('should throw Error when something wrong', async () => {
       const likeRepositoryPostgres = new LikeRepositoryPostgres(pool, {});
 
-      await expect(likeRepositoryPostgres.deleteLike('like-123')).rejects.toThrowError(InvariantError);
+      await expect(likeRepositoryPostgres.deleteLike('like-123')).rejects.toThrow(
+        InvariantError
+      );
     });
 
     it('should not throw Error when query run correctly', async () => {
@@ -93,7 +95,9 @@ describe('LikeRepositoryPostgres', () => {
       await LikesTableTestHelper.addLike(addLikePayload);
       const likeRepositoryPostgres = new LikeRepositoryPostgres(pool, {});
 
-      await expect(likeRepositoryPostgres.deleteLike('like-123')).resolves.not.toThrowError(InvariantError);
+      await expect(likeRepositoryPostgres.deleteLike('like-123')).resolves.not.toThrow(
+        InvariantError
+      );
     });
   });
 

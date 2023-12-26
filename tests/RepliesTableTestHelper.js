@@ -4,15 +4,15 @@ const pool = require('../src/Infrastructures/database/postgres/pool');
 const RepliesTableTestHelper = {
   async addReply({
     id = 'reply-123',
-    thread_id = 'thread-123',
-    comment_id = 'comment-xx123',
+    threadId = 'thread-123',
+    commentId = 'comment-xx123',
     content = 'balasan sebuah komentar',
-    user_id = 'user-123',
+    userId = 'user-123',
   }) {
     const isDeleted = false;
     const query = {
       text: 'INSERT INTO replies VALUES($1, $2, $3, $4, $5, $6)',
-      values: [id, content, thread_id, comment_id, user_id, isDeleted],
+      values: [id, content, threadId, commentId, userId, isDeleted],
     };
 
     await pool.query(query);

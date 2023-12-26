@@ -34,7 +34,7 @@ describe('ThreadRepositoryPostgres', () => {
       const newThread = new AddThread({
         title: 'sebuah thread',
         body: 'isi body thread',
-        user_id: 'user-bocil01',
+        userId: 'user-bocil01',
       });
 
       const fakeIdGenerator = () => 'xx345';
@@ -48,7 +48,7 @@ describe('ThreadRepositoryPostgres', () => {
         new AddedThread({
           id: 'thread-xx345',
           title: 'sebuah thread',
-          user_id: 'user-bocil01',
+          userId: 'user-bocil01',
         })
       );
 
@@ -63,7 +63,9 @@ describe('ThreadRepositoryPostgres', () => {
 
       const threadId = 'thread-aspal00';
 
-      await expect(threadRepositoryPostgres.checkAvailabilityThread(threadId)).rejects.toThrow(NotFoundError);
+      await expect(threadRepositoryPostgres.checkAvailabilityThread(threadId)).rejects.toThrow(
+        NotFoundError
+      );
       await expect(threadRepositoryPostgres.checkAvailabilityThread(threadId)).rejects.toThrow(
         'thread tidak ditemukan!'
       );
@@ -79,12 +81,12 @@ describe('ThreadRepositoryPostgres', () => {
       await ThreadsTableTestHelper.addThread({
         id: 'thread-xx211',
         body: 'isi body thread',
-        user_id: 'user-bocil02',
+        userId: 'user-bocil02',
       });
 
-      await expect(threadRepositoryPostgres.checkAvailabilityThread('thread-xx211')).resolves.not.toThrow(
-        NotFoundError
-      );
+      await expect(
+        threadRepositoryPostgres.checkAvailabilityThread('thread-xx211')
+      ).resolves.not.toThrow(NotFoundError);
     });
   });
 
@@ -103,17 +105,22 @@ describe('ThreadRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah thread',
         body: 'sebuah body thread',
-        user_id: 'user-123',
+        userId: userPayload.id,
       };
 
       await ThreadsTableTestHelper.addThread(threadPayload);
 
-      const detailThread = await threadRepositoryPostgres.getThread(threadPayload.id);
+      const { id, title, body } = threadPayload;
+      const detailThread = await threadRepositoryPostgres.getThread(id);
 
-      expect(detailThread.id).toEqual(threadPayload.id);
-      expect(detailThread.title).toEqual(threadPayload.title);
-      expect(detailThread.body).toEqual(threadPayload.body);
-      expect(detailThread.username).toEqual(userPayload.username);
+      const { date, ...expectedThreadWithoutDate } = detailThread;
+
+      expect(expectedThreadWithoutDate).toEqual({
+        id,
+        title,
+        body,
+        username: userPayload.username,
+      });
     });
   });
 });

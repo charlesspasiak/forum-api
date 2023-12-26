@@ -9,10 +9,10 @@ class LikeUseCase {
 
   async execute(useCasePayload) {
     const addLike = new AddLike(useCasePayload);
-    const { thread_id, comment_id, user_id } = addLike;
-    await this._threadRepository.checkAvailabilityThread(thread_id);
-    await this._commentRepository.checkAvailabilityComment(comment_id);
-    const id = await this._likeRepository.verifyAvailableLike(thread_id, comment_id, user_id);
+    const { threadId, commentId, userId } = addLike;
+    await this._threadRepository.checkAvailabilityThread(threadId);
+    await this._commentRepository.checkAvailabilityComment(commentId);
+    const id = await this._likeRepository.verifyAvailableLike(threadId, commentId, userId);
     if (id) await this._likeRepository.deleteLike(id);
     else await this._likeRepository.addLike(addLike);
   }

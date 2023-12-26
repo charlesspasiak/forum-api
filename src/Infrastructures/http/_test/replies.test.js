@@ -168,7 +168,9 @@ describe('replies endpoint', () => {
 
       expect(responseReply.statusCode).toEqual(400);
       expect(responseJson.status).toEqual('fail');
-      expect(responseJson.message).toEqual('gagal membuat balasan baru, properti yang dibutuhkan tidak ada');
+      expect(responseJson.message).toEqual(
+        'gagal membuat balasan baru, properti yang dibutuhkan tidak ada'
+      );
     });
 
     it('should response 400 if payload not meet data type specification', async () => {
