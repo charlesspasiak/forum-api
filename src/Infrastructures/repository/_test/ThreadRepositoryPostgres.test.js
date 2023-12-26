@@ -105,17 +105,22 @@ describe('ThreadRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'sebuah thread',
         body: 'sebuah body thread',
-        userId: 'user-123',
+        userId: userPayload.id,
       };
 
       await ThreadsTableTestHelper.addThread(threadPayload);
 
-      const detailThread = await threadRepositoryPostgres.getThread(threadPayload.id);
+      const { id, title, body } = threadPayload;
+      const detailThread = await threadRepositoryPostgres.getThread(id);
 
-      expect(detailThread.id).toEqual(threadPayload.id);
-      expect(detailThread.title).toEqual(threadPayload.title);
-      expect(detailThread.body).toEqual(threadPayload.body);
-      expect(detailThread.username).toEqual(userPayload.username);
+      const { date, ...expectedThreadWithoutDate } = detailThread;
+
+      expect(expectedThreadWithoutDate).toEqual({
+        id,
+        title,
+        body,
+        username: userPayload.username,
+      });
     });
   });
 });
