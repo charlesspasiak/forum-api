@@ -16,6 +16,7 @@
         "comma-dangle": "off",
         "object-curly-newline": "off",
         "operator-linebreak": "off",
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        "jest/no-conditional-expect": "off"
     }
 }
